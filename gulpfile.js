@@ -22,7 +22,13 @@ var scripts = [
     'app/scripts/**/*.js',
     'app/*.js'
 ];
-var styles = ['app/styles/*.scss', 'app/styles/**/*.scss', 'styles/**/*.scss', 'vendor/normalize.css/normalize.css'];
+var styles = [
+    // 'app/styles/*.scss',
+    // 'app/styles/**/*.scss', 'styles/**/*.scss',
+    'vendor/normalize.css/normalize.css',
+    'vendor/bootstrap/dist/css/bootstrap.min.css'
+];
+
 var images = ['app/images/svg/*.svg'];
 var templatesDir = 'app/scripts/**/*.html';
 
@@ -60,10 +66,11 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('styles', function() {
-    gulp.src(['app/styles/base.scss'])
-        .pipe(sass({
-            errLogToConsole: true
-        }))
+    gulp.src(styles)
+        .pipe(concat('app.css'))
+        // .pipe(sass({
+        //     errLogToConsole: true
+        // }))
         .pipe(base64({
             baseDir: './app/styles'
         }))
