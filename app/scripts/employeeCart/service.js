@@ -15,35 +15,27 @@
         constructor: EmployeeService,
         getEmployee: function() {
             var self = this;
-            return this.$http.get('http://localhost:9000/data/data.json').then(function(response) {
-                //response.data.photos[0];
+            var employees = ng.fromJson(localStorage.employees);
 
-                var employeeCart = response.data.employees.find(function(employee) {
-
-                    return employee.id === self.$routeParams.employeeId;
-                });
-                return employeeCart;
+            var employeeCart = employees.find(function(employee) {
+                return employee.id === self.$routeParams.employeeId;
             });
+
+            return employeeCart;
         },
         getDefaultPhoto: function() {
-            var self = this;
-            return this.$http.get('http://localhost:9000/data/data.json').then(function(response) {
-                return response.data.photos[0];
-            });
+            return ng.fromJson(localStorage.defaultPhoto);
         },
-        changePhoto: function() {
-            var model = {
-                name: 'test',
-                email: 'test'
-            };
+        changePhoto: function(id, photoFile) {
+            var employees = ng.fromJson(localStorage.employees);
+            for (var i = 0; employees.length > i; i++) {
+                if (employees[i].id === id) {
+                    employees[i].photoFile = photoFile;
+                    console.log(employees[i]);
+                }
+            }
+            localStorage.employees = ng.toJson(employees);
 
-            localStorage.userService = angular.toJson(model);
-            console.log('set');
-        },
-        getPhoto:function(){
-
-          var model = ng.fromJson(localStorage.userService);
-          console.log(model);
         }
     }
 

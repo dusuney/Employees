@@ -1,10 +1,4 @@
 (function(ng) {
-    ng.module('employees', [
-        'ngRoute',
-        'employees.employeeCart',
-        'employees.departmentsList',
-        'employees.employeesList'
-    ]);
 
     ng.module('employees')
         .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -28,16 +22,7 @@
                     controller: 'employeeCartCtrl'
                 });
 
+
         }]);
 
-
-    // ng.module('employees')
-    //     .config(DepartmentsConfig);
-    //
-    // DepartmentsConfig.inject = ['$routeProvider'];
-    //
-    // function DepartmentsConfig($routeProvider) {
-    //
-    //
-    // }
 })(angular);

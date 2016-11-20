@@ -8,12 +8,10 @@
 
     function DepartmentsListCtrl($scope, $http) {
 
-        $scope.test = 'some text';
-        //var self = this;
-
-        $http.get('data/data.json').then(function(response) {
-            $scope.departments = response.data.departments;
-        });
+        // $http.get('data/data.json').then(function(response) {
+        //     $scope.departments = response.data.departments;
+        // });
+         $scope.departments = ng.fromJson(localStorage.departments);
     }
 
 })(angular);

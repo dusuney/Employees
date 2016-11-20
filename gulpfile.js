@@ -17,14 +17,19 @@ var scripts = [
     'vendor/jquery/dist/jquery.min.js',
     'vendor/angular-route/angular-route.min.js',
     'vendor/angular-loader/angular-loader.min.js',
+    'vendor/angular-upload/angular-upload.min.js',
+
+    'app/scripts/_*.js',
     'app/scripts/*.js',
     'app/scripts/**/_*.js',
     'app/scripts/**/*.js',
+    'app/scripts/**/components/*.js',
     'app/*.js'
 ];
 var styles = [
     // 'app/styles/*.scss',
     // 'app/styles/**/*.scss', 'styles/**/*.scss',
+    'vendor/angular-upload/src/directives/btnUpload.min.css',
     'vendor/normalize.css/normalize.css',
     'vendor/bootstrap/dist/css/bootstrap.min.css'
 ];

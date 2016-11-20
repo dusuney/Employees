@@ -8,20 +8,23 @@
 
     function EmployeeCartCtrl($scope, $http, $routeParams, employee) {
 
-        employee.getEmployee().then(function(result) {
-            //console.log(result);
-            $scope.employeeCart = result;
-        });
+        $scope.employeeCart = employee.getEmployee();
+        if (!$scope.employeeCart.photoFile) {
+            $scope.employeeCart.photoFile = employee.getDefaultPhoto().data;
+        }
 
-        employee.getDefaultPhoto().then(function(result) {
-            //console.log(result);
-            $scope.photos = result;
-        });
+        $scope.changePhoto = function() {
+            $scope.isSelectPhoto = true;
+        };
 
-        employee.changePhoto();
-        employee.getPhoto();
+        $scope.loadedPhoto = {
+            file: null
+        };
 
-
+        $scope.loadPhoto = function() {
+            $scope.employeeCart.photoFile = $scope.loadedPhoto.file;
+            employee.changePhoto($scope.employeeCart.id, $scope.loadedPhoto.file);
+        }
     }
 
 })(angular);

@@ -8,14 +8,11 @@
 
     function EmployeesListCtrl($scope, $http, $routeParams) {
 
-        $scope.test = 'some text';
-        //var self = this;
-
-        $http.get('http://localhost:9000/data/data.json').then(function(response) {
-            $scope.employeesList = response.data.employees.filter(function(employee) {
-              return employee.department === $routeParams.departmentId;
-            });
-        });
+      var employees = ng.fromJson(localStorage.employees);
+      
+      $scope.employeesList = employees.filter(function(employee) {
+        return employee.department === $routeParams.departmentId;
+      });
     }
 
 })(angular);
