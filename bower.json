@@ -2,7 +2,7 @@
   "name": "emias-ui-playground",
   "version": "1.0.0",
   "authors": [
-    "Sergey Zigachev <s.zi@outlook.com>"
+    "Avanesyan Artem <dusuney@gmail.com>"
   ],
   "license": "MIT",
   "private": true,
@@ -17,7 +17,6 @@
   "dependencies": {
     "normalize.css": "~3.0.3",
     "angular": "~1.5.8",
-    "jquery": "~2.1.4",
-    "moment": "~2.8.4"
+    "jquery": "~2.1.4"
   }
 }

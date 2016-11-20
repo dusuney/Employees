@@ -12,52 +12,69 @@ var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var templateCache = require('gulp-angular-templatecache');
 
-var scripts = ['emias-ui/scripts/*.js', 'emias-ui/scripts/**/_*.js', 'emias-ui/scripts/**/*.js', 'scripts/*.js'];
-var styles = ['emias-ui/styles/*.scss', 'emias-ui/styles/**/*.scss', 'styles/**/*.scss'];
-var images = ['emias-ui/images/svg/*.svg'];
-var templatesDir =  'emias-ui/scripts/**/*.html';
+var scripts = [
+    'vendor/angular/angular.min.js',
+    'vendor/jquery/dist/jquery.min.js',
+    'vendor/angular-route/angular-route.min.js',
+    'vendor/angular-loader/angular-loader.min.js',
+    'app/scripts/*.js',
+    'app/scripts/**/_*.js',
+    'app/scripts/**/*.js',
+    'app/*.js'
+];
+var styles = ['app/styles/*.scss', 'app/styles/**/*.scss', 'styles/**/*.scss', 'vendor/normalize.css/normalize.css'];
+var images = ['app/images/svg/*.svg'];
+var templatesDir = 'app/scripts/**/*.html';
 
 var server;
 
-gulp.task('images', function () {
+gulp.task('images', function() {
     return gulp.src(images)
         .pipe(imagemin({
-            svgoPlugins: [
-                { removeHiddenElems: false }
-            ]
+            svgoPlugins: [{
+                removeHiddenElems: false
+            }]
         }))
-        .pipe(rename({prefix: 'eui-icon-'}))
-        .pipe(svgstore({ }))
-        .pipe(gulp.dest('dist/images'));
+        .pipe(rename({
+            prefix: 'eui-icon-'
+        }))
+        .pipe(svgstore({}))
+        .pipe(gulp.dest('app/dist/images'));
 });
 
 
-gulp.task('templates', function () {
+gulp.task('templates', function() {
     gulp.src(templatesDir)
-        .pipe(templateCache({standalone: true, root: '/emias-ui/scripts/', module: 'emias.ui.templates'}))
-        .pipe(gulp.dest('dist'));
+        .pipe(templateCache({
+            standalone: true,
+            root: '/app/scripts/',
+            module: 'employees.templates'
+        }))
+        .pipe(gulp.dest('app/dist'));
 });
 
 gulp.task('scripts', function() {
     gulp.src(scripts)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('app/dist'));
 });
 
 gulp.task('styles', function() {
-    gulp.src(['emias-ui/styles/base.scss'])
+    gulp.src(['app/styles/base.scss'])
         .pipe(sass({
             errLogToConsole: true
         }))
-        .pipe(base64({ baseDir: './emias-ui/styles' }))
-        .pipe(gulp.dest('dist'));
+        .pipe(base64({
+            baseDir: './app/styles'
+        }))
+        .pipe(gulp.dest('app/dist'));
 });
 
 gulp.task('server', function(next) {
     var connect = require('connect');
     var serveStatic = require('serve-static');
     server = connect();
-    server.use(serveStatic('./')).listen(process.env.PORT || 9000, next);
+    server.use(serveStatic('./app')).listen(process.env.PORT || 9000, next);
 });
 
 gulp.task('run', ['images', 'scripts', 'styles', 'server'], function() {
@@ -74,40 +91,40 @@ gulp.task('run', ['images', 'scripts', 'styles', 'server'], function() {
         livereload.changed(file.path);
     });
 
-    gulp.watch('pages/*.html').on('change', function(file) {
+    gulp.watch(['pages/*.html', './index.html']).on('change', function(file) {
         livereload.changed(file.path);
     });
 });
 
-gulp.task('release', ['images', 'scripts', 'styles', 'templates'], function () {
+gulp.task('release', ['images', 'scripts', 'styles', 'templates'], function() {
     var pjson = require('./package.json');
 
-    gulp.src('emias-ui/images/*.png')
+    gulp.src('app/images/*.png')
         .pipe(gulp.dest('release/v' + pjson.version + '/images'));
 
-    gulp.src('emias-ui/styles/_*.scss')
+    gulp.src('app/styles/_*.scss')
         .pipe(gulp.dest('release/v' + pjson.version + '/styles'));
 
-    gulp.src('dist/app.js')
+    gulp.src('app/dist/app.js')
         .pipe(uglify())
-        .pipe(rename(function (path) {
-            path.basename = 'emias.ui';
+        .pipe(rename(function(path) {
+            path.basename = 'employees';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
-    gulp.src('dist/base.css')
-        .pipe(rename(function (path) {
-            path.basename = 'emias.ui';
+    gulp.src('app/dist/base.css')
+        .pipe(rename(function(path) {
+            path.basename = 'employees';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
-    gulp.src('dist/images/icons-sprite.svg')
-        .pipe(rename(function (path) {
-            path.basename = 'emias.ui.sprite';
+    gulp.src('app/dist/images/icons-sprite.svg')
+        .pipe(rename(function(path) {
+            path.basename = 'employees.sprite';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
 
-    gulp.src('dist/templates.js')
-        .pipe(rename(function (path) {
-            path.basename = 'emias.ui.templates';
+    gulp.src('app/dist/templates.js')
+        .pipe(rename(function(path) {
+            path.basename = 'employees.templates';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
 });
