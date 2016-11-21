@@ -22,6 +22,11 @@
         };
 
         $scope.loadPhoto = function() {
+            if (!$scope.loadedPhoto.file) {
+                alert('Выберете фото');
+                return;
+            }
+
             $scope.employeeCart.photoFile = $scope.loadedPhoto.file;
             employee.changePhoto($scope.employeeCart.id, $scope.loadedPhoto.file);
         }

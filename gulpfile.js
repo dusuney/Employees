@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var sass = require('gulp-sass');
+var less = require('gulp-less');
 var base64 = require('gulp-base64');
 var livereload = require('gulp-livereload');
 var rename = require('gulp-rename');
@@ -11,6 +11,7 @@ var imagemin = require('gulp-imagemin');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var templateCache = require('gulp-angular-templatecache');
+var merge = require('merge-stream');
 
 var scripts = [
     'vendor/angular/angular.min.js',
@@ -33,6 +34,8 @@ var styles = [
     'vendor/normalize.css/normalize.css',
     'vendor/bootstrap/dist/css/bootstrap.min.css'
 ];
+
+var stylesLess = ['app/styles/index.less'];
 
 var images = ['app/images/svg/*.svg'];
 var templatesDir = 'app/scripts/**/*.html';
@@ -70,17 +73,34 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('app/dist'));
 });
 
+var cssStream = gulp.src(styles)
+    .pipe(concat('app.css'));
+
+var lessStream = gulp.src(stylesLess)
+    .pipe(less())
+    .pipe(concat('less-files.less'));
+
 gulp.task('styles', function() {
-    gulp.src(styles)
+    var mergedStream = merge(lessStream, cssStream)
         .pipe(concat('app.css'))
-        // .pipe(sass({
-        //     errLogToConsole: true
-        // }))
         .pipe(base64({
             baseDir: './app/styles'
         }))
         .pipe(gulp.dest('app/dist'));
+
+    return mergedStream;
 });
+// gulp.task('styles', function() {
+//     gulp.src(styles)
+//         .pipe(concat('app.css'))
+//         // .pipe(sass({
+//         //     errLogToConsole: true
+//         // }))
+//         .pipe(base64({
+//             baseDir: './app/styles'
+//         }))
+//         .pipe(gulp.dest('app/dist'));
+// });
 
 gulp.task('server', function(next) {
     var connect = require('connect');

@@ -5,7 +5,6 @@
         .run(['$http', function($http) {
             if (canRequest()) {
                 $http.get('data/data.json').then(function(response) {
-                  console.log('make request');
                     var departments = response.data.departments;
                     var defaultPhoto = response.data.photos[0];
                     var employees = response.data.employees;

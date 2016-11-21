@@ -1,16 +1,16 @@
 <h1>Employee card</h1>
 
-<div class="row">
+<div class="row employeeCard">
     <div class="col-md-2">
         <div class="row">
-            <div class="col-md-12"><img src="{{employeeCart.photoFile}}" alt="" width="200"></div>
+            <div class="col-md-12"><img src="{{employeeCart.photoFile}}" alt=""></div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <button ng-click="changePhoto()">Change photo</button>
+            <div class="col-md-12 loadedBlock">
+                <p><button type="button" class="btn btn-primary" ng-click="changePhoto()">Change photo</button></p>
                 <div ng-if="isSelectPhoto">
                     <p> <input fileread="loadedPhoto" type="file" name="img"></p>
-                    <p><button ng-click="loadPhoto()">Load photo</button></p>
+                    <p><button type="button" class="btn btn-primary" ng-click="loadPhoto()">Load photo</button></p>
                 </div>
             </div>
         </div>

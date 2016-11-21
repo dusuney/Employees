@@ -1,6 +1,6 @@
 {
   "name": "employees",
-  "version": "0.6.0",
+  "version": "0.1.0",
   "description": "list of employees",
   "main": "index.js",
   "scripts": {
@@ -17,11 +17,13 @@
     "gulp-concat": "2.6.1",
     "gulp-edit-xml": "2.0.0",
     "gulp-imagemin": "3.1.1",
+    "gulp-less": "^3.3.0",
     "gulp-livereload": "3.8.1",
     "gulp-rename": "1.2.2",
     "gulp-sass": "2.3.2",
     "gulp-svgstore": "6.1.0",
     "gulp-uglify": "2.0.0",
+    "merge-stream": "^1.0.0",
     "node-sass": "3.13.0",
     "serve-static": "1.11.1"
   }

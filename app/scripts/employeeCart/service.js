@@ -4,10 +4,9 @@
     ng.module('employees.employeeCart')
         .service('employee', EmployeeService);
 
-    EmployeeService.$inject = ['$http', '$routeParams'];
+    EmployeeService.$inject = ['$routeParams'];
 
-    function EmployeeService($http, $routeParams) {
-        this.$http = $http;
+    function EmployeeService($routeParams) {
         this.$routeParams = $routeParams;
     }
 
