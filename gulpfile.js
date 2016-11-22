@@ -28,8 +28,6 @@ var scripts = [
     'app/*.js'
 ];
 var styles = [
-    // 'app/styles/*.scss',
-    // 'app/styles/**/*.scss', 'styles/**/*.scss',
     'vendor/angular-upload/src/directives/btnUpload.min.css',
     'vendor/normalize.css/normalize.css',
     'vendor/bootstrap/dist/css/bootstrap.min.css'
@@ -53,24 +51,21 @@ gulp.task('images', function() {
             prefix: 'eui-icon-'
         }))
         .pipe(svgstore({}))
-        .pipe(gulp.dest('app/dist/images'));
+        .pipe(gulp.dest('dist/images'));
 });
 
 
 gulp.task('templates', function() {
+  gulp.src('app/index.html')
+      .pipe(gulp.dest('dist'));
     gulp.src(templatesDir)
-        .pipe(templateCache({
-            standalone: true,
-            root: '/app/scripts/',
-            module: 'employees.templates'
-        }))
-        .pipe(gulp.dest('app/dist'));
+        .pipe(gulp.dest('dist/pages/'));
 });
 
 gulp.task('scripts', function() {
     gulp.src(scripts)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('app/dist'));
+        .pipe(gulp.dest('dist'));
 });
 
 var cssStream = gulp.src(styles)
@@ -86,30 +81,19 @@ gulp.task('styles', function() {
         .pipe(base64({
             baseDir: './app/styles'
         }))
-        .pipe(gulp.dest('app/dist'));
+        .pipe(gulp.dest('dist'));
 
     return mergedStream;
 });
-// gulp.task('styles', function() {
-//     gulp.src(styles)
-//         .pipe(concat('app.css'))
-//         // .pipe(sass({
-//         //     errLogToConsole: true
-//         // }))
-//         .pipe(base64({
-//             baseDir: './app/styles'
-//         }))
-//         .pipe(gulp.dest('app/dist'));
-// });
 
 gulp.task('server', function(next) {
     var connect = require('connect');
     var serveStatic = require('serve-static');
     server = connect();
-    server.use(serveStatic('./app')).listen(process.env.PORT || 9000, next);
+    server.use(serveStatic('./dist')).listen(process.env.PORT || 9000, next);
 });
 
-gulp.task('run', ['images', 'scripts', 'styles', 'server'], function() {
+gulp.task('run', ['images', 'scripts', 'styles', 'server','templates'], function() {
 
     gulp.watch(images, ['images']).on('change', function(file) {
         livereload.changed(file.path);
@@ -123,7 +107,7 @@ gulp.task('run', ['images', 'scripts', 'styles', 'server'], function() {
         livereload.changed(file.path);
     });
 
-    gulp.watch(['pages/*.html', './index.html']).on('change', function(file) {
+    gulp.watch(['app/scripts/**/*.html', './index.html']).on('change', function(file) {
         livereload.changed(file.path);
     });
 });
@@ -137,24 +121,24 @@ gulp.task('release', ['images', 'scripts', 'styles', 'templates'], function() {
     gulp.src('app/styles/_*.scss')
         .pipe(gulp.dest('release/v' + pjson.version + '/styles'));
 
-    gulp.src('app/dist/app.js')
+    gulp.src('dist/app.js')
         .pipe(uglify())
         .pipe(rename(function(path) {
             path.basename = 'employees';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
-    gulp.src('app/dist/base.css')
+    gulp.src('dist/base.css')
         .pipe(rename(function(path) {
             path.basename = 'employees';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
-    gulp.src('app/dist/images/icons-sprite.svg')
+    gulp.src('dist/images/icons-sprite.svg')
         .pipe(rename(function(path) {
             path.basename = 'employees.sprite';
         }))
         .pipe(gulp.dest('release/v' + pjson.version));
 
-    gulp.src('app/dist/templates.js')
+    gulp.src('dist/templates.js')
         .pipe(rename(function(path) {
             path.basename = 'employees.templates';
         }))

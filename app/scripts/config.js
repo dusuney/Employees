@@ -10,15 +10,15 @@
 
             $routeProvider
                 .when('/departments', {
-                    templateUrl: '/scripts/departmentsList/index.html',
+                    templateUrl: 'pages/departmentsList/index.html',
                     controller: 'departmentsListCtrl'
                 })
                 .when('/departments/:departmentId/employees', {
-                    templateUrl: '/scripts/employeesList/index.html',
+                    templateUrl: 'pages/employeesList/index.html',
                     controller: 'employeesListCtrl'
                 })
                 .when('/employees/:employeeId', {
-                    templateUrl: '/scripts/employeeCart/index.html',
+                    templateUrl: 'pages/employeeCart/index.html',
                     controller: 'employeeCartCtrl'
                 });
 
